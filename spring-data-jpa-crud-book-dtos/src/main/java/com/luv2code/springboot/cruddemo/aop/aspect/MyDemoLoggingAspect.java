@@ -12,11 +12,14 @@ import org.springframework.stereotype.Component;
 
 
 
+
 @Aspect
 @Component
 public class MyDemoLoggingAspect {
 
-    private  static Logger myLogger= LoggerFactory.getLogger(MyDemoLoggingAspect.class);
+
+     private  static Logger myLogger= LoggerFactory.getLogger(MyDemoLoggingAspect.class);
+
 
     @After("execution( * com.luv2code.springboot.cruddemo.service.*.*(..))")
     public void forServicePackage( JoinPoint theJoinPoint)  {
