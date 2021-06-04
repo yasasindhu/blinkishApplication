@@ -2,8 +2,8 @@ package com.luv2code.springboot.cruddemo.rest.Controller;
 
 
 import com.luv2code.springboot.cruddemo.entity.Book;
-import com.luv2code.springboot.cruddemo.entity.dto.BookDto;
-import com.luv2code.springboot.cruddemo.rest.customExceptions.BookNotFoundException;
+import com.luv2code.springboot.cruddemo.dto.BookDto;
+import com.luv2code.springboot.cruddemo.customExceptions.NotFoundException;
 import com.luv2code.springboot.cruddemo.service.BookService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,7 +38,7 @@ public class BookRestController {
     public ResponseEntity<BookDto> getBook(@PathVariable int bookId){
         Book theBook=bookService.findById(bookId);
         if(theBook==null){
-            throw new BookNotFoundException("Book id not found -"+bookId);
+            throw new NotFoundException("Book id not found -"+bookId);
         }
         // convert entity to DTO
         BookDto bookResponse = modelMapper.map(theBook, BookDto.class);
@@ -78,7 +77,7 @@ public class BookRestController {
 
         Book theBook=bookService.findById(bookId);
         if(theBook==null){
-            throw new BookNotFoundException("Book id not found -"+bookId);
+            throw new NotFoundException("Book id not found -"+bookId);
         }
 
         Book book = bookService.save(bookRequest);
@@ -95,7 +94,7 @@ public class BookRestController {
 
         Book tempBook=bookService.findById(bookId);
         if(tempBook==null){
-            throw new BookNotFoundException("Book id not found -"+bookId);
+            throw new NotFoundException("Book id not found -"+bookId);
         }
         bookService.deleteById(bookId);
         return "Deleted Book id- "+bookId;

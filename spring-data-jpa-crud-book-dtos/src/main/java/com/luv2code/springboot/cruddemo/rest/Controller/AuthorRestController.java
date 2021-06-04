@@ -1,10 +1,8 @@
 package com.luv2code.springboot.cruddemo.rest.Controller;
 
 import com.luv2code.springboot.cruddemo.entity.Author;
-import com.luv2code.springboot.cruddemo.entity.Book;
-import com.luv2code.springboot.cruddemo.entity.dto.AuthorDto;
-import com.luv2code.springboot.cruddemo.entity.dto.BookDto;
-import com.luv2code.springboot.cruddemo.rest.customExceptions.BookNotFoundException;
+import com.luv2code.springboot.cruddemo.dto.AuthorDto;
+import com.luv2code.springboot.cruddemo.customExceptions.NotFoundException;
 import com.luv2code.springboot.cruddemo.service.AuthorService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +38,7 @@ public class AuthorRestController {
     public ResponseEntity<AuthorDto> getAuthor(@PathVariable int authorId){
         Author theAuthor=authorService.findById(authorId);
         if(theAuthor==null){
-            throw new BookNotFoundException("Author id not found -"+authorId);
+            throw new NotFoundException("Author id not found -"+authorId);
         }
         // convert entity to DTO
         AuthorDto authorResponse = modelMapper.map(theAuthor, AuthorDto.class);
@@ -77,7 +75,7 @@ public class AuthorRestController {
 
         Author tempAuthor=authorService.findById(authorId);
         if(tempAuthor==null){
-            throw new BookNotFoundException("Author id not found -"+authorId);
+            throw new NotFoundException("Author id not found -"+authorId);
         }
         Author author = authorService.save(authorRequest);
 
@@ -93,7 +91,7 @@ public class AuthorRestController {
 
         Author tempAuthor=authorService.findById(authorId);
         if(tempAuthor==null){
-            throw new BookNotFoundException("Author id not found -"+authorId);
+            throw new NotFoundException("Author id not found -"+authorId);
         }
         authorService.deleteById(authorId);
         return "Deleted Author id- "+authorId;

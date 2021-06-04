@@ -1,4 +1,4 @@
-package com.luv2code.springboot.cruddemo.entity.dto;
+package com.luv2code.springboot.cruddemo.dto;
 
 import com.luv2code.springboot.cruddemo.entity.Book;
 import lombok.Data;

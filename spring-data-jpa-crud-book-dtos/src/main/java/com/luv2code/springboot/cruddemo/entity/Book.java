@@ -1,11 +1,9 @@
 package com.luv2code.springboot.cruddemo.entity;
 
-import com.luv2code.springboot.cruddemo.rest.customExceptions.BookNotFoundException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -25,7 +23,7 @@ public class Book {
     private int id;
 
     @Column(name="title")
-    @NotEmpty(message = "Title may not be blank")
+    @NotBlank(message = "Title may not be blank")
     private String title;
 
     @Column(name="author_id")
