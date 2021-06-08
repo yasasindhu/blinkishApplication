@@ -1,0 +1,43 @@
+name: Github actions config for Backend trustgroup PR  and push changes
+
+on:
+  push:
+    branches:
+      - "main"
+      - "feature/*"
+    paths:
+      - "spring-data-jpa-crud-book-dtos/**"
+  pull_request:
+    branches:
+      - "main"
+      - "feature/*"
+    paths:
+      - "spring-data-jpa-crud-book-dtos/**"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "spring-data-jpa-crud-book-dtos"
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+    - name: Cache Maven packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+    - name: Updating Sonar Cloud
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: mvn verify sonar:sonar -Dsonar.host.url=https://sonarcloud.io  -Dsonar.organization=zemoso-int -Dsonar.login=${{ secrets.BLINKIST_TOKEN}} -Dsonar.projectKey=springboot-blinkist
